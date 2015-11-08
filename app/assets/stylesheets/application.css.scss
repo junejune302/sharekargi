@@ -3,6 +3,7 @@
 // Bootstrap body padding for fixed navbar
 body { padding-top: 60px; }
 @import "bootswatch/spacelab/bootswatch";
+@import "fullcalendar";
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -17,4 +18,5 @@ body { padding-top: 60px; }
  *
  *= require_tree .
  *= require_self
+ 
  */

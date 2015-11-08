@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'calendar/index'
+
   root 'welcome#index'
   
   get    'signup', to: 'users#new'
