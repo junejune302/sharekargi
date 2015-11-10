@@ -5,8 +5,8 @@ $(document).ready(function() {
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-            defaultDate: '2014-09-12',
             editable: true,
+            events: '/events.json',
             eventLimit: true, // allow "more" link when too many events
             eventLimitText:'その他',
             lang:'ja',
