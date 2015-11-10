@@ -1,42 +1,31 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
-
-  # GET /events
-  # GET /events.json
-  def index
-    @events = Event.all
-  end
-
-  # GET /events/1
-  # GET /events/1.json
-  def show
-  end
-
-  # GET /events/new
   def new
     @event = Event.new
-  end
-
-  # GET /events/1/edit
-  def edit
-  end
-
-  # POST /events
-  # POST /events.json
-  def create
-    @event = Event.new(event_params)
-
     respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+      format.html
+      format.js
     end
   end
 
+  def create
+    @event = Event.new(event_params)
+
+    if @event.save
+      render json: {msg: 'your event was saved.'}
+    else
+      render json: {msg: 'error: something go wrong.' }, status: 500
+    end
+  end
+
+  def index
+    @events = Event.between(params['start'], params['end']) if (params['start'] && params['end']) 
+
+    respond_to do |format| 
+      format.html
+      format.json { render :json => @events } 
+    end
+  end
+  
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
@@ -69,6 +58,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:title, :description, :start_time, :end_time)
-    end
+    params.require(:event).permit(:title, :description, :start_time, :end_time)
+  end
 end

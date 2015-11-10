@@ -9,6 +9,7 @@ $(document).ready(function() {
             events: '/events.json',
             eventLimit: true, // allow "more" link when too many events
             eventLimitText:'その他',
+            defaultView: 'agendaWeek',
             lang:'ja',
 //ヘッダーの書式
 columnFormat: {
@@ -67,21 +68,17 @@ scrollTime:'09:00:00',
 minTime:'00:00:00',
 maxTime:'24:00:00',
 //日付クリック
-    dayClick: function(date, jsEvent, view) {
- 
-        alert('クリックした時間: ' + date.format() + '\n座標: ' + jsEvent.pageX + ',' + jsEvent.pageY+'\nスケジュール: ' + view.name);
+    dayClick: function(date, allDay, jsEvent, view) {
         // change the day's background color just for fun
         $(this).css('background-color', 'powderblue');
  
     },
 //イベントクリック
     eventClick: function(calEvent, jsEvent, view) {
- 
-        alert('イベント名: ' + calEvent.title + '\n座標: ' + jsEvent.pageX + ',' + jsEvent.pageY + '\nスケジュール: ' + view.name);
- 
+        alert('Event: ' + calEvent.title);
         // change the border color just for fun
         $(this).css('border-color', 'red');
- 
+   
     },
 //ドラッグ可能
 selectable:true,

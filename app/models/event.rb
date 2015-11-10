@@ -15,9 +15,10 @@ class Event < ActiveRecord::Base
     {
       :id => self.id,
       :title => self.title,
-      :start => start_at.rfc822,
-      :end => end_at.rfc822,
-      :allDay => allDay,
+      :start => self.start_time,
+      :end => self.end_time,
+      :description => self.description,
+      :allDay => self.is_all_day,
       :user_name => self.user_name,
       :url => Rails.application.routes.url_helpers.events_path(id),
       :color => "green"
