@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
      # scope :between, lambda {|start_time, end_time| {:conditions => ["? < starts_at and starts_at < ?", Event.format_date(start_time), Event.format_date(end_time)] }}
+     
   def self.between(start_time, end_time)
     where('start_at > :lo and start_at < :up',
       :lo => Event.format_date(start_time),

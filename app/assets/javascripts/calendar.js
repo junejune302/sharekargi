@@ -6,11 +6,12 @@ $(document).ready(function() {
                     right: 'month,agendaWeek,agendaDay'
                 },
             editable: true,
-            events: '/events.json',
+            events: '/users/<%= current_user.id %>/events.json',
             eventLimit: true, // allow "more" link when too many events
             eventLimitText:'その他',
             defaultView: 'agendaWeek',
             lang:'ja',
+
 //ヘッダーの書式
 columnFormat: {
     month: 'ddd',    // 月
@@ -156,3 +157,42 @@ select: function(start, end) {
         });
          
     });
+$(document).ready(function() {
+    $('#calendar').fullCalendar({
+        events: '/users/<%= current_user.id %>/events.json',
+        selectable: true,
+        selectHelper: true,
+        select: function(start, end, allDay) {
+            console.log('start:' + start);
+            console.log('end:' + end);
+            console.log('allDay:' + allDay);
+            alert('selected');
+        }
+    });
+});
+$(document).ready(function() {
+    var select = function(start, end, allDay) {
+        var title = window.prompt("title");
+        var data = {event: {title: title,
+                            start: start,
+                            end: end, 
+                            allDay: allDay}};
+        $.ajax({
+            type: "POST",
+            url: "/events.json",
+            data: data,
+            success: function() {
+                calendar.fullCalendar('refetchEvents');
+            }
+        });
+        calendar.fullCalendar('unselect');
+    };
+
+    var calendar = $('#calendar').fullCalendar({
+        events: '/users/<%= current_user.id %>/events.json',
+        selectable: true,
+        selectHelper: true,
+        ignoreTimezone: false,
+        select: select
+    });
+});

@@ -1,8 +1,9 @@
 $(document).ready ->  
-  $('#calendar').fullCalendar  
+  $('#calendar').fullCalendar 
    editable: true,  
    updateEvent = (the_event) ->  
-  $.update "/events/" + the_event.id,  
+  $.ajax
+   url:"/events" + the_event.id,  
    event:  
     title: the_event.title,  
     starts_at: "" + the_event.start,  

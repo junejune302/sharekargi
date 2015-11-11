@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Events</h1>
+<h1>登録内容一覧</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Start time</th>
-      <th>End time</th>
+      <th>タイトル</th>
+      <th>内容</th>
+      <th>開始時刻</th>
+      <th>終了時刻</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,9 +20,9 @@
         <td><%= event.description %></td>
         <td><%= event.start_time %></td>
         <td><%= event.end_time %></td>
-        <td><%= link_to 'Show', event %></td>
-        <td><%= link_to 'Edit', edit_event_path(event) %></td>
-        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: '削除していいですか?' } %></td>
+        <td><%= link_to '表示', event %></td>
+        <td><%= link_to '編集', edit_event_path(event) %></td>
+        <td><%= link_to '削除', event, method: :delete, data: { confirm: '削除していいですか?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Event', new_event_path %>
+<%= link_to '新しい家事分担を登録', new_event_path %>
