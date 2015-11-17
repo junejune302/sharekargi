@@ -1,31 +1,35 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
-
+  
+  
   # GET /events
   # GET /events.json
   def index
+    
     @events = Event.all
-    @events = @events.between(params['start'], params['end']) if  (params['start'] && params['end'])
-    @events = @events.for_user(params[:user_id]) if params[:user_id].present? && params[:user_id] == current_user.id
+    @events = @events.between(params['start'], params['end']) 
+    if  (params['start'] && params['end'])
+    @events = @events.for_user(params[:user_id]) 
+    if params[:user_id].present? && params[:user_id] == current_user.id
     respond_to do |format|
     format.html # index.html.erb
-    format.json { render :json => @events }
+    format.json { render json:  @events.to_json(:include => :user) }
+    end
+    end
     end
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
+    @events = Event.find(params[:user_id])
+    render json: @events
   end
   
-  def user_events
-  @events = current_user.events
-  render json: @events
-  end
+  
 
   # GET /events/new
   def new
-    @event = Event.new
+    @event = Event.new(params[:user])
   end
 
   # GET /events/1/edit
@@ -35,11 +39,11 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
+    @event = Event.create(params[:user_id])
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to user_events_path, alert: "登録完了！！" }
         format.json { render action: 'show', status: :created, location: @event }
       else
         format.html { render action: 'new' }
@@ -51,6 +55,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
+    @event = Event.update(params[:user_id])
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
@@ -65,10 +70,12 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event.destroy
+    @event = Event.destroy(params[:user_id])
+    
     respond_to do |format|
       format.html { redirect_to events_url }
       format.json { head :no_content }
+      @user.destroy
     end
   end
 

@@ -14,20 +14,20 @@
   </thead>
 
   <tbody>
-    <% @events.each do |event| %>
       <tr>
+        <% @events.each do |event| %>
         <td><%= event.title %></td>
         <td><%= event.description %></td>
         <td><%= event.start_time %></td>
         <td><%= event.end_time %></td>
-        <td><%= link_to '表示', event %></td>
-        <td><%= link_to '編集', edit_event_path(event) %></td>
-        <td><%= link_to '削除', event, method: :delete, data: { confirm: '削除していいですか?' } %></td>
+        <td><%= link_to '表示', edit_user_events %></td>
+        <td><%= link_to '編集', edit_user_events_path(event) %></td>
+        <td><%= link_to '削除', edit_user_events_path, method: :destroy, data: { confirm: '削除していいですか?' } %></td>
       </tr>
-    <% end %>
+      <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to '新しい家事分担を登録', new_event_path %>
+<%= link_to '新しい家事分担を登録', new_user_events_path(current_user) %>

@@ -1,19 +1,25 @@
 Rails.application.routes.draw do
-  resources :events
-  get 'calendar/index'
-
+  
+  
   root 'welcome#index'
   
+  get 'calendar', to: 'calendar#show'
   get    'signup', to: 'users#new'
   get    'login' , to: 'sessions#new'
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+
+  resources :users 
+  resources :sessions, only: [:new, :create, :edit, :destroy]
+  resources :users do 
+  resource :events
+  end
   
-  get 'events/user_events' => 'events#user_events'
+  get 'events#new', to: 'events#create'
+    
+end
   
-  resources :users
-  resources :sessions, only: [:new, :create, :destroy]
-  resources :events
+ 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -69,4 +75,4 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
+

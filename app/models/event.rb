@@ -1,8 +1,10 @@
 class Event < ActiveRecord::Base
      # scope :between, lambda {|start_time, end_time| {:conditions => ["? < starts_at and starts_at < ?", Event.format_date(start_time), Event.format_date(end_time)] }}
-     
+   
+  belongs_to :user 
+  
   def self.between(start_time, end_time)
-    where('start_at > :lo and start_at < :up',
+    where('start_time > :lo and start_time < :up',
       :lo => Event.format_date(start_time),
       :up => Event.format_date(end_time)
     )
@@ -25,5 +27,13 @@ class Event < ActiveRecord::Base
       :color => "green"
     }
   end
+  
+  private
+
+    def finish_cannot_be_earlier_than_start
+      unless start.nil? || finish.nil?
+        time_error if finish < start
+      end
+    end
 end
 
