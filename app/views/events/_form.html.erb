@@ -1,4 +1,4 @@
-<%= form_for@event,:url => {:action => :new} do |f| %>
+<%= form_for@event, method: "POST",:url => { :action => :create } do |f| %>
 
   <div class="field">
     <%= f.label :タイトル %><br>

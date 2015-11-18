@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resource :events
   end
   
-  get 'events#new', to: 'events#create'
+  get 'users/:user_id/events/new', to: 'events#create'
     
 end
   

@@ -51,3 +51,4 @@ gem 'fullcalendar-rails'
 
 gem 'momentjs-rails'
 
+gem 'did_you_mean', group: [:development, :test]

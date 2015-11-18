@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @events = Event.find(params[:user_id])
-    render json: @events
+    render json: @events.to_json(:include => :user)
   end
   
   
@@ -39,12 +39,13 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.create(params[:user_id])
+    @event = Event.create(event_params)
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to user_events_path, alert: "登録完了！！" }
-        format.json { render action: 'show', status: :created, location: @event }
+        format.html { redirect_to calendar_path, alert: "登録完了！！" }
+        format.js   {}
+        format.json { render json: @event, :formats => [:json], :handlers => [:jbuilder] }
       else
         format.html { render action: 'new' }
         format.json { render json: @event.errors, status: :unprocessable_entity }

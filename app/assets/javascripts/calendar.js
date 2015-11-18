@@ -6,7 +6,7 @@ $(document).ready(function() {
                     right: 'month,agendaWeek,agendaDay'
                 },
             editable: true,
-            events: '/index.json',
+            eventSources: 'user_events_path',
             eventLimit: true,                                                 // allow "more" link when too many events
             eventLimitText:'その他',
             defaultView: 'agendaWeek',
@@ -78,19 +78,41 @@ maxTime:'24:00:00',
         $(this).css('border-color', 'red');
     },
                                                              
-    select: function(start, end) {
-       var title = prompt('イベントタイトル:');
-       var eventData;
-       if (title) {
-        eventData = {
-            title: title,
-            start: start,
-            end: end
-        };
-        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-    }
-    $('#calendar').fullCalendar('unselect');
-},
+    select: function(start, end, allDay) {
+            var title = prompt('タイトルを入力してください');
+                if (!allDay) {
+                    $('#calendar').fullCalendar('renderEvent',
+                    {
+                        title: title,
+                        start: start,
+                        end: end,
+                        color: 'pink',
+                        allDay: false
+                    });
+                }
+                else
+                {
+                    $('#calendar').fullCalendar('renderEvent',
+                    {
+                        title: title,
+                        start: start,
+                        end: end,
+                        color: 'pink',
+                        allDay: allDay
+                    });
+                };
+                $('#calendar').fullCalendar('unselect');
+                $.ajax({
+                    url: '/api/gcals/create_event_self',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end
+                    },
+                })
+        },
  
             events: [
                 {
@@ -159,9 +181,10 @@ $(document).ready(function() {
 	var data = {event: event};
 
 	$.ajax({
-	    type: "POST",                                                   //romptでtitleを受け取り、dataを作ってajaxで/eventsに投げる
-	    url: "/calendar",
-	    data: "user_id: current_user.id",
+	    type: 'POST',                                                   //romptでtitleを受け取り、dataを作ってajaxで/eventsに投げる
+	    url: '/calendar',                                              //送信先
+	    data: 'user_events_path',                                      //送信するデータ（パラメータ)
+	    dataType: 'json',
 	    success: function() {
 		$('#calendar').fullCalendar("refetchEvents");                          //refetchEventsを呼んでデータの再取得・再描画を行う
 	    }
